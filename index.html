@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- <script src="js/imtech_pager.js"></script> -->
+</head>
+<body>
+
+	<nav class="one">
+	  <ul class="topmenu">
+	    <li><a href="#">Home</a></li>
+	    <li><a href="#">Work</a></li>
+	    <li><a href="#">About ▾</a>
+	      <ul class="submenu">
+	        <li><a href="">Lorem</a></li>
+	        <li><a href="">Ipsum</a></li>
+	        <li><a href="">Dolor</a></li>
+	      </ul>
+	    </li>
+	    <li><a href="#">Blog</a></li>
+	    <li><a href="#">Contact</a></li>
+	  </ul>
+	</nav>
+
+	<div id="app">
+		<form action="" method="get">
+		  <input placeholder="Искать здесь..." type="text" v-on:input="changeName">
+		  <button class="button1" type="submit">Choose File</button>
+		  <p>Selected file: {{ name }}</p>
+		  <span>Files:</span>
+			<p style="white-space: pre-line;">{{ message }}</p>
+			<br>
+			<textarea v-model="message" placeholder="так и не понял, какую логику надо было реализовать здесь"></textarea>
+			<button class="button2" type="submit">Attachements</button>
+		</form>
+	</div>
+
+	<table id= "myTable" border="2">
+    <thead id="content">  
+      <th data-type="userId" >UserId</th>
+      <th data-type="id">Id</th>
+      <th data-type="title">Title</th>
+      <th data-type="completed">Completed</th> 
+      </thead> 
+      <tbody></tbody> 
+  </table>
+
+  <div id="pager" class="pager"></div>
+  <div id="curr-page"></div>
+
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="field.js"></script>
+<script src="tasklist.js"></script>
+<script src="pagination.js"></script>
