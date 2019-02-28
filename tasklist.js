@@ -1,78 +1,158 @@
+var tasklist = {
+	
+	'config' : {
+		'rowsPerPage' : 10
+	},
 
-	$(function() {
+	'todos' : false,
 
-   var people = [];
+	'users' : false,
 
-   $.getJSON('https://jsonplaceholder.typicode.com/todos', function(data) {
-       $.each(data, function(i, f) {
-          var tblRow = "<tr>" + "<td>" + f.userId + "</td>" +
-           "<td>" + f.id + "</td>" + "<td>" + f.title + "</td>" + "<td>" + f.completed + "</td>" + "</tr>"
-           $(tblRow).appendTo("#myTable tbody");
-     });
+	'run' : async function(){
+		var jsonPath;
+		var todos;
+		var todo;
+		var users;
+		var user;
+		var count;
+		var rowsPerPage = this.config.rowsPerPage;
 
-   });
+		jsonPath = 'https://jsonplaceholder.typicode.com/todos';
+		todos = await this.jsonToArray(jsonPath);
 
-});
+		jsonPath = 'https://jsonplaceholder.typicode.com/users';
+		users = await this.jsonToArray(jsonPath);
 
-// 	window.onload = function() {
+		if(todos.success && users.success){
+			this.todos = todos.success;
+			this.users = users.success;
 
-// 	var myTable = document.getElementById('myTable');
+			this.showPage(1);
 
-//     myTable.onclick = function(e) {
-//       if (e.target.tagName != 'TH') return;
-
-//       // Если TH -- сортируем
-//       sortmyTable(e.target.cellIndex, e.target.getAttribute('data-type'));
-//     };
-
-//     function sortmyTable(colNum, type) {
-//       var tbody = myTable.getElementsByTagName('tbody')[0];
-
-//       // Составить массив из TR
-//       var rowsArray = [].slice.call(tbody.rows);
-
-//       // определить функцию сравнения, в зависимости от типа
-//       var compare;
-
-//       switch (type) {
-//         case 'paragraph':
-//           compare = function(rowA, rowB) {
-//             return rowA.cells[colNum].innerHTML - rowB.cells[colNum].innerHTML;
-//           };
-//           break;
-//         case 'number':
-//           compare = function(rowA, rowB) {
-//             return rowA.cells[colNum].innerHTML > rowB.cells[colNum].innerHTML;
-//           };
-//           break;
-//           case 'Title':
-//           compare = function(rowA, rowB) {
-//             return rowA.cells[colNum].innerHTML > rowB.cells[colNum].innerHTML;
-//           };
-//           break;
-//           case 'Text':
-//           compare = function(rowA, rowB) {
-//             return rowA.cells[colNum].innerHTML > rowB.cells[colNum].innerHTML;
-//           };
-//           break;
-//       }
-      
+			this.addPagination();
 
 
-//       // сортировать
-//       rowsArray.sort(compare);
+		}
+	},
 
-//       // Убрать tbody из большого DOM документа для лучшей производительности
-//       // но не отработает сортировка
-//       // grid.removeChild(tbody);
+	'getUserNameById' : function (id){
+		var users = this.users;
+		var user;
 
-//       // добавить результат в нужном порядке в TBODY
-//       // они автоматически будут убраны со старых мест и вставлены в правильном порядке
-//       for (var i = 0; i < rowsArray.length; i++) {
-//         tbody.appendChild(rowsArray[i]);
-//       }
+		for (var i = 0; i < users.length; i++) {
+			user =  users[i];
+			if(id == user.id){
+				return  user.name;
+			}
+		}
 
-//       grid.appendChild(tbody);
+		return false;
 
-//     }
-// };
+	},
+
+	'showPage' : function(page){
+
+		var todos = this.todos;
+		var users = this.users;
+		var start;
+		var end;
+		var rowsPerPage = this.config.rowsPerPage;
+
+		if(page == 1){
+		    start = 0;
+		    end = rowsPerPage-1;
+		}
+
+		if(page>1){
+		    start = (page-1) * rowsPerPage;
+		    end = start + rowsPerPage;
+		}
+
+		for (var i = start; i <= end ; i++) {
+			todo = todos[i];
+			//user = users[i];
+			userName = this.getUserNameById(todo.userId);
+
+			this.addRow(todo, userName);
+		}
+
+	},
+
+	'jsonToArray' : async function (json){
+
+		var result = {};
+		var msg = {
+			'error'    : 'JSON file has been failed!',
+			'success'  : 'JSON file has been loaded!',
+		};
+		var response;
+
+		try {
+			response = await $.ajax(json)
+				.done(function(data) {
+					console.log(msg.success);
+				})
+				.fail(function() {
+					alert(msg.error);
+				});
+		
+		} catch(e) {
+		}
+
+		if(response){
+			result.success = response;
+		}else{
+			result.error =  msg.error;
+		}
+
+		return result;
+	},
+
+	'addRow' : function (todo, userName){
+
+		var table = $('#myTable tbody');
+		var row = '<tr>' +
+						'<td>' + todo.userId + '</td>' +
+						'<td>' + userName + '</td>' +
+						'<td>' + todo.title + '</td>' +
+						'<td>' + todo.completed + '</td>' +
+				  '</tr>';
+
+		table.append(row);
+
+	},
+
+	'addPagination' : function(){
+
+		var tasksTotal = this.todos.length;
+		var rowsPerPage = this.config.rowsPerPage;
+
+		var pages = Math.ceil(tasksTotal/rowsPerPage);
+		var page;
+		var pager = $('#pager');
+		var link;
+		var links = $('.page-link');
+		var pageNum;
+		var self = this;
+
+		for (var i = 1; i <= pages; i++) {
+			page = i;
+			link = '<a href="#" class="page-link" data-id="'+page+'">'+page+'</a>';
+			pager.append(link);
+		}
+
+		$(document).on('click', '.page-link', function(){
+			pageNum = $(this).attr('data-id');
+			self.showPage(pageNum);
+		})
+
+	}
+
+};
+
+tasklist.config.rowsPerPage = 24;
+tasklist.run();
+
+
+
+   

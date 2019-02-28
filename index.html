@@ -5,25 +5,24 @@
 	<title>Vue</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <!-- <script src="js/imtech_pager.js"></script> -->
 </head>
 <body>
 
-	<nav class="one">
-	  <ul class="topmenu">
-	    <li><a href="#">Home</a></li>
-	    <li><a href="#">Work</a></li>
-	    <li><a href="#">About ▾</a>
-	      <ul class="submenu">
-	        <li><a href="">Lorem</a></li>
-	        <li><a href="">Ipsum</a></li>
-	        <li><a href="">Dolor</a></li>
-	      </ul>
-	    </li>
-	    <li><a href="#">Blog</a></li>
-	    <li><a href="#">Contact</a></li>
-	  </ul>
-	</nav>
+  <div class="navbar">
+  <a href="#home">Home</a>
+  <a href="#news">News</a>
+  <div class="dropdown">
+  <button class="dropbtn" onclick="myFunction()">Blog ▾
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-content" id="myDropdown">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+  </div>
+  </div>
+  <a href="#news">About Us</a> 
+</div>
 
 	<div id="app">
 		<form action="" method="get">
@@ -48,8 +47,8 @@
       <tbody></tbody> 
   </table>
 
-  <div id="pager" class="pager"></div>
-  <div id="curr-page"></div>
+  <div id="pager"></div>
+  
 
 
 </body>
@@ -57,4 +56,5 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="field.js"></script>
 <script src="tasklist.js"></script>
-<script src="pagination.js"></script>
+
+<script src="menu.js"></script>

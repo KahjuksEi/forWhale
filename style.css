@@ -62,60 +62,73 @@ button:hover {
   text-align: center;
 }
 
-nav {
-  width: 100%;
-  margin: 0 auto;
-  transition: .2s;
-}
+/*menu*/
 
-ul {
-  list-style: none; 
-  margin: 0;
-  padding: 0;
-}
-.topmenu > li {
-  display: inline-block;
-  margin-right: 30px;
-  position: relative;
-}
-.topmenu > li:last-child {
-  margin-right: 0;
-}
-a {
-  display: block;
-  padding: 10px 15px;
-  text-decoration: none;
-  outline: none;
-}
-
-.submenu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  z-index: 10;
-}
-.one ul {
-  background: #44A08D;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to bottom, #093637, #44A08D);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to bottom, #093637, #44A08D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+.navbar {
+overflow: hidden;
+background: #44A08D;
+background: -webkit-linear-gradient(to bottom, #093637, #44A08D);
+background: linear-gradient(to bottom, #093637, #44A08D); 
 
 }
-.one ul a {
+
+.navbar a {
+  float: left;
+  font-size: 16px;
   color: #303030;
+  text-align: center;
+  padding: 16px 16px;
+  text-decoration: none;
 }
 
-.one ul a:hover {
-  color: red;
-} 
-.one .submenu {
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  cursor: pointer;
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: #303030;
+  padding: 14px 16px;
+  background-color: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+  background-color: red;
+}
+
+.dropdown-content {
   display: none;
-  background: #b19891;
+  position: absolute;
+  background-color: #E05F71;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
 }
 
-.one ul li:hover .submenu {
+.dropdown-content a {
+  float: none;
+  color: #303030;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.show {
   display: block;
 }
+
+
+/*table*/
 
 table {
 	margin-top: 50px;
@@ -137,4 +150,23 @@ table {
 #pagingControls li {
   display:inline;
   padding:0 0.5em
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2
+}
+
+#pager{
+  font-size: 16px;
+  color: #303030;
+  text-align: center;
+  padding-left: 10px;
+  margin: 30px;
+  
+}
+
+#pager a{
+  padding: 20px;
+  color: #44A08D;
+  outline: none;
 }
